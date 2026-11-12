@@ -1,0 +1,24 @@
+{
+  "name": "acme-control-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ACME Control command & simulation API (TypeScript on Vercel)",
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "audit": "pnpm audit --prod"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.2.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

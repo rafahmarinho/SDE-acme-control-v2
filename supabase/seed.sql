@@ -1,0 +1,1 @@
+-- Placeholder seed: demo data with two industrial plants (PRD). No real credentials.

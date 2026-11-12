@@ -1,0 +1,3 @@
+# Supabase local config placeholder. Generate with `supabase init` and then harden auth settings
+# (password policy, rate limits, refresh-token rotation) per skills/authentication and
+# skills/session-management.

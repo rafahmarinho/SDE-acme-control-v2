@@ -1,0 +1,18 @@
+# env / secrets
+.env
+.env.*
+!.env.example
+# node
+node_modules/
+.vercel/
+dist/
+# flutter
+app/.dart_tool/
+app/build/
+app/.flutter-plugins*
+app/.packages
+*.iml
+.idea/
+# supabase
+supabase/.temp/
+supabase/.branches/

@@ -1,0 +1,4 @@
+{
+  "$comment": "Placeholder. Security headers (HSTS, CSP, X-Frame-Options, nosniff) are to be added per skills/web-security/T66 and skills/api-security/T35.",
+  "functions": { "api/**/*.ts": { "maxDuration": 10 } }
+}

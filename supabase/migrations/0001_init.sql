@@ -1,0 +1,3 @@
+-- Placeholder migration. Schema (from PRD): profiles(role), plants, tanks, pumps, valves,
+-- process_values, alarms, setpoints, setpoint_proposals, maintenance_orders, shift_handovers,
+-- events, scenarios. Enable RLS on every table (skills/database-security, skills/authorization).
