@@ -38,4 +38,4 @@ create policy att_write on storage.objects for insert to authenticated
 - [ ] Anonymous access to any object returns 400/403.
 - [ ] Users cannot read files under another plant's prefix.
 
-**Status:** Pending
+**Status:** Applied

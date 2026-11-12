@@ -19,4 +19,6 @@ description: Rely on Vercel's edge network and firewall (WAF, DDoS mitigation, a
 
 **Recommended Action:** Platform owner enables Vercel Firewall rules (rate limiting on `/api/*`, bot protection, attack challenge mode on incidents) and documents them in the deployment README.
 
+**DOCUMENTATION ONLY** - repository inventory checked (api/vercel.json, app/web/vercel.json, supabase/config.toml): vercel.json cannot express Vercel Firewall/WAF rules. Listed under "Platform-owned controls" in README.md.
+
 **Status:** Documented

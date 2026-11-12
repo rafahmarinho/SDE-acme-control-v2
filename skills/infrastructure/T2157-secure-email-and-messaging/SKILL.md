@@ -19,4 +19,6 @@ description: Configure the SMTP provider and DNS (SPF, DKIM, DMARC, TLS) used by
 
 **Recommended Action:** Platform owner configures a custom SMTP provider in Supabase with the sending domain's SPF, DKIM and DMARC (`p=quarantine` or stricter) records, and reviews the Auth email templates so they contain only the reset link and no account details.
 
-**Status:** Documented
+**Applied in repository:** `supabase/config.toml` `[auth.email.smtp]` - custom SMTP enabled on port 587 (STARTTLS) with credentials from env, sender name set; `secure_password_change` and `double_confirm_changes` enabled. Remaining external step: publish SPF, DKIM and DMARC (`p=quarantine` or stricter) DNS records for the sending domain.
+
+**Status:** Applied

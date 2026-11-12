@@ -30,4 +30,4 @@ use reduced accuracy, never store raw coordinates with user identity.
 **Success Criteria:**
 - [ ] Built Info.plist contains no location usage keys (or only WhenInUse with justification).
 
-**Status:** Pending
+**Status:** Applied

@@ -36,4 +36,4 @@ import { randomUUID, createHash, timingSafeEqual } from 'node:crypto';
 - [ ] No custom cipher/hash implementations in the codebase.
 - [ ] Offline cache encryption uses an AEAD algorithm with per-message nonces.
 
-**Status:** Pending
+**Status:** Applied

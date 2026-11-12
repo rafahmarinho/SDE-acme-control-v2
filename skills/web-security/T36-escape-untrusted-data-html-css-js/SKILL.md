@@ -36,4 +36,4 @@ html += `<td>${esc(note)}</td>`;
 - [ ] A note containing `<img src=x onerror=alert(1)>` displays as literal text on web.
 - [ ] No `HtmlElementView`/`innerHTML` usage with user data.
 
-**Status:** Pending
+**Status:** Applied

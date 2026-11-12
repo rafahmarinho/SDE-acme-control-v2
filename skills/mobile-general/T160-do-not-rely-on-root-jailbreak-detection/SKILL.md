@@ -30,4 +30,4 @@ Optional: on rooted devices, warn the user and report a signal to the API (logge
 **Success Criteria:**
 - [ ] Every control action is still rejected server-side when sent from a modified client (test with curl).
 
-**Status:** Pending
+**Status:** Applied

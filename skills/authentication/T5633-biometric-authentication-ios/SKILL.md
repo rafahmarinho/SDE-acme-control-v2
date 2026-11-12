@@ -40,4 +40,4 @@ if (ok) {
 - [ ] Either no biometric code / Info.plist key exists, or unlock reads the token only from the Keychain after LocalAuthentication succeeds.
 - [ ] The server still validates the session for every control action.
 
-**Status:** Pending
+**Status:** Applied

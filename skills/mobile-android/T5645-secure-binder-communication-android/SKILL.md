@@ -35,4 +35,4 @@ override fun onBind(intent: Intent): IBinder? {
 - [ ] No exported bound services in the merged manifest.
 - [ ] Any Binder entry point checks caller permission.
 
-**Status:** Pending
+**Status:** Applied

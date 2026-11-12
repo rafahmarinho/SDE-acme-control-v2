@@ -19,4 +19,6 @@ description: OS-level protection of privileged processes is provided by the mana
 
 **Recommended Action:** Security owner records the shared-responsibility model (Vercel/Supabase SOC 2 reports) and applies this countermeasure if any self-hosted component (e.g. on-prem gateway to real PLCs) is introduced.
 
+**DOCUMENTATION ONLY** - repository inventory checked: no Dockerfile, host configuration or self-managed OS exists; all server processes run on managed Vercel/Supabase. Listed under "Platform-owned controls" in README.md.
+
 **Status:** Documented

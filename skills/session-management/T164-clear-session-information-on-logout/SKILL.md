@@ -39,4 +39,4 @@ Future<void> logout(WidgetRef ref) async {
 - [ ] After logout, offline mode shows no previous user's data.
 - [ ] A 401 from the API triggers the same cleanup.
 
-**Status:** Pending
+**Status:** Applied

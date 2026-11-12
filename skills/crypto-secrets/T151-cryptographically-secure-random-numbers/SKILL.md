@@ -37,4 +37,4 @@ final nonce = List<int>.generate(12, (_) => rng.nextInt(256));
 - [ ] `Math.random` appears only under `api/src/simulation/`.
 - [ ] Dart code uses `Random.secure()` for any key/nonce/token.
 
-**Status:** Pending
+**Status:** Applied

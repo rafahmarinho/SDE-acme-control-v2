@@ -35,4 +35,4 @@ for (const role of ['operator', 'engineer', 'supervisor', 'maintenance']) {
 - [ ] Secret scan passes on the repository.
 - [ ] Release builds contain no demo credentials.
 
-**Status:** Pending
+**Status:** Applied

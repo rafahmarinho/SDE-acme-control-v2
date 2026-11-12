@@ -36,4 +36,4 @@ export const admin = createClient(url.toString(), requireEnv('SUPABASE_SERVICE_R
 - [ ] No code path builds a connection URL or key from request data.
 - [ ] API fails to start if `SUPABASE_URL` is missing or not HTTPS.
 
-**Status:** Pending
+**Status:** Applied

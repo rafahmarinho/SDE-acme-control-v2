@@ -40,4 +40,4 @@ Future<OfflineSnapshot?> read() async {
 - [ ] Cache contains only whitelisted fields (unit test on serializer).
 - [ ] Expired cache is deleted and not displayed.
 
-**Status:** Pending
+**Status:** Applied

@@ -6,17 +6,21 @@ version: 0.1.0+1
 environment:
   sdk: ">=3.5.0 <4.0.0"
 
-# Placeholder dependency list from PRD. Resolve to current stable versions at implementation
-# time (`flutter pub upgrade --major-versions`) - see skills/release-supply-chain.
+# Commit pubspec.lock. Before each release run `flutter pub outdated` and upgrade to the
+# current stable versions; Dependabot (.github/dependabot.yml) tracks advisories.
 dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.6.1
   go_router: ^14.6.0
   supabase_flutter: ^2.8.0
-  # Secure local storage for session tokens / offline cache keys (see skills/client-data-protection)
   flutter_secure_storage: ^9.2.2
   connectivity_plus: ^6.1.0
+  cryptography: ^2.7.0
+  http: ^1.2.2
+  path_provider: ^2.1.4
+  uuid: ^4.5.1
+  web: ^1.1.0
 
 dev_dependencies:
   flutter_test:

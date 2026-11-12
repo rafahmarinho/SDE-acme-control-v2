@@ -31,4 +31,4 @@ authorize(await loadRole(user.id), action);    // T17
 **Success Criteria:**
 - [ ] No code path grants access based on device/install id.
 
-**Status:** Pending
+**Status:** Applied

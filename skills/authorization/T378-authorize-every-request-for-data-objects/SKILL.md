@@ -34,4 +34,4 @@ if (proposal.data.proposed_by === user.id) return json(403, { error: 'separation
 - [ ] Accessing another plant's equipment/proposal by id returns 404.
 - [ ] Self-approval of a setpoint proposal is rejected.
 
-**Status:** Pending
+**Status:** Applied

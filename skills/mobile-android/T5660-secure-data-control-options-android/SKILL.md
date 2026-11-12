@@ -35,4 +35,4 @@ ListTile(title: const Text('Sign out of this device'), onTap: () => logout(ref))
 - [ ] "Clear offline data" removes the cache file and its key.
 - [ ] Cache older than the configured TTL is not displayed and is deleted.
 
-**Status:** Pending
+**Status:** Applied

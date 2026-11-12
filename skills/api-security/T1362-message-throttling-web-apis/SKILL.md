@@ -37,4 +37,4 @@ if (!(await hit(`cmd:${user.id}`, 30, '1 minute'))) return json(429, { error: 'r
 - [ ] 31st command in a minute returns 429 with `Retry-After`.
 - [ ] Rate-limit hits are logged.
 
-**Status:** Pending
+**Status:** Applied

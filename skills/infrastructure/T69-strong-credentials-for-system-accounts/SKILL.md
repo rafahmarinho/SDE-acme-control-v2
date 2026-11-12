@@ -19,4 +19,6 @@ description: Server-to-server credentials (Supabase service-role key, database p
 
 **Recommended Action:** Platform owner sets a strong random database password, uses the new Supabase secret API keys where available, stores them as "Sensitive" Vercel env vars, and rotates them at least yearly or on staff changes.
 
+**DOCUMENTATION ONLY** - repository inventory checked: credentials are generated and rotated in the Supabase and Vercel consoles; the repo only references them via env placeholders (api/.env.example). Listed under "Platform-owned controls" in README.md.
+
 **Status:** Documented

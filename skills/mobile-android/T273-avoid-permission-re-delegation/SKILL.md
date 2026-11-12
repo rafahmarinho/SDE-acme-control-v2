@@ -35,4 +35,4 @@ final file = await ImagePicker().pickImage(source: ImageSource.gallery); // syst
 - [ ] Merged manifest lists only justified permissions (documented).
 - [ ] No exported share targets / content providers.
 
-**Status:** Pending
+**Status:** Applied

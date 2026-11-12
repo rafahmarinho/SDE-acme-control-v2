@@ -36,4 +36,4 @@ create policy own on public.consents for all to authenticated using (user_id = a
 - [ ] Optional fields/notifications are unavailable until consent is recorded.
 - [ ] Consent records include notice version and timestamp.
 
-**Status:** Pending
+**Status:** Applied

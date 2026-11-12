@@ -39,4 +39,4 @@ select distinct on (user_id, purpose) user_id, purpose, granted from consents or
 - [ ] Withdrawing SMS-notification consent stops simulated SMS for that user.
 - [ ] Withdrawal events are stored with timestamp.
 
-**Status:** Pending
+**Status:** Applied

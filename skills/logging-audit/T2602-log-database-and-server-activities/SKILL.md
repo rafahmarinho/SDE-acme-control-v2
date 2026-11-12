@@ -35,4 +35,4 @@ await audit({
 - [ ] Every command and setpoint decision produces exactly one audit entry with actor, time, target, request and result.
 - [ ] Logs contain no tokens or passwords (test).
 
-**Status:** Pending
+**Status:** Applied

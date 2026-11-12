@@ -34,4 +34,4 @@ Forbidden            : MD5, SHA-1, DES/3DES, RC4, ECB mode, base64/gzip as encry
 - [ ] grep finds no md5/sha1/ECB usage.
 - [ ] All encryption keys are 256-bit random values held in secure storage.
 
-**Status:** Pending
+**Status:** Applied

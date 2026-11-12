@@ -34,4 +34,4 @@ Not allowed: deep links that trigger commands, setpoints, resets
 - [ ] IPC inventory exists and matches the built manifests.
 - [ ] No deep link can execute a control action.
 
-**Status:** Pending
+**Status:** Applied

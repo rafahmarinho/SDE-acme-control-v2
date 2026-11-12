@@ -33,4 +33,4 @@ export const render = (k: keyof typeof TEMPLATES, vars: Record<string, string>) 
 - [ ] A note containing `{{` or `${7*7}` is rendered literally.
 - [ ] No code compiles templates from request/database content.
 
-**Status:** Pending
+**Status:** Applied

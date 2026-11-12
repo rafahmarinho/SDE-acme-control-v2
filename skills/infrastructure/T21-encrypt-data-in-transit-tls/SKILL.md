@@ -19,4 +19,6 @@ description: TLS termination (protocol versions, ciphers, certificates) is manag
 
 **Recommended Action:** Platform owner verifies TLS settings (e.g. SSL Labs scan of the web and API domains), manages custom-domain certificates in Vercel, and enables Supabase "enforce SSL" for direct database connections.
 
-**Status:** Documented
+**Applied in repository:** HSTS (`max-age=63072000; includeSubDomains`) in `api/vercel.json` and `app/web/vercel.json`; HTTPS-only backend URLs enforced in `api/src/lib/env.ts` and `app/lib/config.dart`; Android cleartext disabled; iOS ATS without exceptions. TLS versions/ciphers remain platform-managed (Vercel/Supabase) - verify with an SSL Labs scan and enable Supabase "Enforce SSL".
+
+**Status:** Applied

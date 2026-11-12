@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "outDir": "dist"
   },
-  "include": ["api", "src", "test"]
+  "include": ["api", "src", "test", "scripts"]
 }

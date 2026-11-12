@@ -37,4 +37,4 @@ await File('${dir.path}/cache.bin').writeAsBytes(encrypted);  // AES-GCM (T59), 
 - [ ] `allowBackup` is false (or rules exclude sensitive files).
 - [ ] No plaintext plant data or tokens under `/data/data/<pkg>` (verified on emulator).
 
-**Status:** Pending
+**Status:** Applied

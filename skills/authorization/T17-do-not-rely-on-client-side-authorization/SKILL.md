@@ -42,4 +42,4 @@ export function authorize(role: Role, action: keyof typeof can) {
 - [ ] Calling each `/api/*` action with a non-permitted role returns 403 (tests per role).
 - [ ] Direct Supabase writes from the client to protected tables are blocked by RLS.
 
-**Status:** Pending
+**Status:** Applied

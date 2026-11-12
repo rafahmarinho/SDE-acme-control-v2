@@ -33,4 +33,4 @@ revoke update (role, email) on public.profiles from authenticated;   -- role cha
 - [ ] A user can correct their display name and the change appears on web and mobile.
 - [ ] Users cannot change their own role.
 
-**Status:** Pending
+**Status:** Applied

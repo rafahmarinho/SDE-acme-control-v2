@@ -41,4 +41,4 @@ Default Vercel static hosting with no security headers; a malicious page can fra
 - [ ] Production responses carry `X-Frame-Options: DENY` and `frame-ancestors 'none'`.
 - [ ] Embedding the app in an iframe on another origin fails.
 
-**Status:** Pending
+**Status:** Applied

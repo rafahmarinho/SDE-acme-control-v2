@@ -43,4 +43,4 @@ export async function requireUser(req: Request) {
 - [ ] No route derives user identity or role from request body/query.
 - [ ] Boot-time check rejects non-HTTPS backend URLs in both API and app.
 
-**Status:** Pending
+**Status:** Applied

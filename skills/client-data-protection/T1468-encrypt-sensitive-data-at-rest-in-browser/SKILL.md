@@ -31,4 +31,4 @@ CryptoKey (crypto.subtle.generateKey(..., false, ...)), wiped on logout (T1539).
 **Success Criteria:**
 - [ ] On web, localStorage contains only the Supabase session key.
 
-**Status:** Pending
+**Status:** Applied

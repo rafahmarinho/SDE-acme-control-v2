@@ -34,4 +34,4 @@ git add app/pubspec.lock api/pnpm-lock.yaml
 - [ ] Lockfiles committed; `pnpm audit --prod` has no high/critical findings.
 - [ ] `flutter pub outdated` shows no packages behind on security releases.
 
-**Status:** Pending
+**Status:** Applied

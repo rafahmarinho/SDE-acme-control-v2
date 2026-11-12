@@ -37,4 +37,4 @@ assert(Uri.parse(apiBaseUrl).scheme == 'https');   // plus runtime check in rele
 - [ ] Release APK has cleartext disabled (inspect merged manifest/config).
 - [ ] App refuses non-HTTPS endpoints at startup.
 
-**Status:** Pending
+**Status:** Applied

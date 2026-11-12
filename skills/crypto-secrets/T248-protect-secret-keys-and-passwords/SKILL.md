@@ -39,4 +39,4 @@ export function requireEnv(name: string) {
 - [ ] Secret scan of repo and Flutter build output finds no service-role key.
 - [ ] API boot fails cleanly when a secret is missing, without printing values.
 
-**Status:** Pending
+**Status:** Applied

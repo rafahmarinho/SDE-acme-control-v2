@@ -19,4 +19,6 @@ description: Behavioural monitoring (baselines, anomaly detection, alerting) is 
 
 **Recommended Action:** Ops team configures Vercel Log Drains and Supabase log export to a SIEM, defines baselines (e.g. commands per shift, off-hours logins, new IPs) and alerts to the plant supervisor on-call.
 
+**DOCUMENTATION ONLY** - repository inventory checked: log drains and SIEM baselines/alerts are configured outside the repo. The data source is implemented (internal.audit_log, structured security events - T2602). Listed under "Platform-owned controls" in README.md.
+
 **Status:** Documented

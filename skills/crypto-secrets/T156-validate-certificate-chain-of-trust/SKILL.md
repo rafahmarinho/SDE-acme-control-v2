@@ -35,4 +35,4 @@ if (process.env.NODE_TLS_REJECT_UNAUTHORIZED === '0') throw new Error('TLS verif
 - [ ] CI check for TLS-disabling patterns passes.
 - [ ] API refuses to start with TLS verification disabled.
 
-**Status:** Pending
+**Status:** Applied

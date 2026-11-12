@@ -41,4 +41,4 @@ class LifecycleObserver extends WidgetsBindingObserver {
 - [ ] Merged manifest has no exported services (or each has a signature-level permission).
 - [ ] Realtime subscriptions stop when the app is backgrounded.
 
-**Status:** Pending
+**Status:** Applied

@@ -1,3 +1,81 @@
-# Supabase local config placeholder. Generate with `supabase init` and then harden auth settings
-# (password policy, rate limits, refresh-token rotation) per skills/authentication and
-# skills/session-management.
+# Supabase project configuration for ACME Control (local CLI + reference for the hosted project).
+# Hosted projects: mirror every [auth] value below in Dashboard > Authentication settings.
+project_id = "acme-control-v2"
+
+[api]
+enabled = true
+port = 54321
+# "internal" (audit log, rate limits) is deliberately NOT exposed.
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+# Hard cap on rows returned by any PostgREST request (T2600).
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[realtime]
+enabled = true
+
+[storage]
+enabled = true
+file_size_limit = "10MiB"
+
+[auth]
+enabled = true
+site_url = "env(SITE_URL)"
+# Exact allow-list of redirect targets for password recovery (web + verified mobile App Link). No wildcards.
+additional_redirect_urls = ["env(WEB_RESET_REDIRECT_URL)", "env(MOBILE_RESET_REDIRECT_URL)"]
+# Short-lived access tokens + refresh-token rotation (T20).
+jwt_expiry = 900
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+# Accounts are provisioned by an administrator (scripts/seed-users.ts), never self-registered.
+enable_signup = false
+enable_anonymous_sign_ins = false
+# Password policy (T143).
+minimum_password_length = 12
+password_requirements = "lower_upper_letters_digits"
+
+[auth.rate_limit]
+# Brute-force / abuse throttling (T70, T2).
+email_sent = 4
+sign_in_sign_ups = 10
+token_refresh = 150
+token_verifications = 30
+
+[auth.sessions]
+# Absolute and inactivity session limits for shared shift devices (T20, T164).
+timebox = "12h"
+inactivity_timeout = "8h"
+
+[auth.email]
+enable_signup = false
+enable_confirmations = true
+double_confirm_changes = true
+secure_password_change = true
+max_frequency = "60s"
+# Recovery links expire after 1 hour and are single-use (T2).
+otp_expiry = 3600
+
+# Transactional email over authenticated, TLS-protected SMTP (T2157). Values come from env.
+[auth.email.smtp]
+enabled = true
+host = "env(SMTP_HOST)"
+port = 587
+user = "env(SMTP_USER)"
+pass = "env(SMTP_PASS)"
+admin_email = "env(SMTP_ADMIN_EMAIL)"
+sender_name = "ACME Control"
+
+[auth.mfa]
+max_enrolled_factors = 10
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true

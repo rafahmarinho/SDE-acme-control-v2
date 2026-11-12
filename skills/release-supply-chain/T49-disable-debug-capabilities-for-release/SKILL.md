@@ -36,4 +36,4 @@ if (demoTools && role == Role.supervisor) GoRoute(path: '/simulation', ...);
 - [ ] With `ENABLE_DEMO_TOOLS=false`, simulation endpoints return 404 and the screen is absent.
 - [ ] Release builds contain no debug-only routes or credentials.
 
-**Status:** Pending
+**Status:** Applied

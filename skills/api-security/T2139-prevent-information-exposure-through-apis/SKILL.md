@@ -36,4 +36,4 @@ catch (e) { log.error(e); return json(500, { error: 'internal_error', requestId 
 - [ ] No response contains stack traces or SQL error text.
 - [ ] No `select('*')` in app or API code.
 
-**Status:** Pending
+**Status:** Applied

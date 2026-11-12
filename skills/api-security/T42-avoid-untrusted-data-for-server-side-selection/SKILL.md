@@ -36,4 +36,4 @@ const scenario = b.scenario ? SCENARIOS[b.scenario] : undefined;   // lookup, no
 - [ ] Unknown scenario names and `steps` > 600 return 400.
 - [ ] Setpoints outside the tag's engineering range are rejected server-side.
 
-**Status:** Pending
+**Status:** Applied

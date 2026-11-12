@@ -38,4 +38,4 @@ String? validatePassword(String v) =>
 - [ ] Server rejects passwords shorter than 12 characters.
 - [ ] Every password form shows the policy before submission.
 
-**Status:** Pending
+**Status:** Applied

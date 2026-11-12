@@ -41,4 +41,4 @@ export function cors(req: Request, res: Headers) {
 - [ ] Preflight from an unlisted origin receives no `Access-Control-Allow-Origin`.
 - [ ] No response contains `Access-Control-Allow-Origin: *`.
 
-**Status:** Pending
+**Status:** Applied

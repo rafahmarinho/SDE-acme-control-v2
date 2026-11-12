@@ -37,4 +37,4 @@ export async function callIntegration(name: string, body: unknown) {
 - [ ] No `fetch()` in the API takes a URL derived from request or database user content.
 - [ ] Simulated integrations make no network calls.
 
-**Status:** Pending
+**Status:** Applied

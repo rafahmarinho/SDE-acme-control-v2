@@ -38,4 +38,4 @@ showMessage('If an account exists for this email, a reset link has been sent.');
 - [ ] Reset link cannot be reused and expires.
 - [ ] All other sessions are revoked after a successful reset.
 
-**Status:** Pending
+**Status:** Applied

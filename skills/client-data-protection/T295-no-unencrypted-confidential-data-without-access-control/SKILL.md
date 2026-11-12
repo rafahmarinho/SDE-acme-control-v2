@@ -35,4 +35,4 @@ abstract class SecureStore {                       // single persistence entry p
 - [ ] All persistence goes through `SecureStore` (code review).
 - [ ] No plaintext confidential data on device storage.
 
-**Status:** Pending
+**Status:** Applied

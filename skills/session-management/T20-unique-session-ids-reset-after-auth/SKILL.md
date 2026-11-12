@@ -40,4 +40,4 @@ await admin.auth.admin.signOut(userId, 'global');
 - [ ] Changing a user's role invalidates that user's existing sessions.
 - [ ] No custom session-id generation code exists.
 
-**Status:** Pending
+**Status:** Applied

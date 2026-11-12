@@ -35,4 +35,4 @@ const { data } = await admin.storage.from('attachments').createSignedUrl(row.pat
 - [ ] No API accepts a raw storage path or filename for download.
 - [ ] Requests for another plant's attachment id return 404.
 
-**Status:** Pending
+**Status:** Applied

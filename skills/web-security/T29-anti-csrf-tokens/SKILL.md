@@ -35,4 +35,4 @@ export function guardStateChange(req: Request) {
 - [ ] State-changing endpoints reject GET and non-JSON bodies.
 - [ ] No API code reads auth from `Cookie`.
 
-**Status:** Pending
+**Status:** Applied

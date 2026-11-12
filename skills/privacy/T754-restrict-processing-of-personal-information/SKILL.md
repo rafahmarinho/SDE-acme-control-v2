@@ -33,4 +33,4 @@ where c.purpose = 'sms_alarm_notifications' and c.granted and not p.processing_r
 - [ ] Restricted users are excluded from all optional processing paths (tests).
 - [ ] Restriction changes are audited.
 
-**Status:** Pending
+**Status:** Applied

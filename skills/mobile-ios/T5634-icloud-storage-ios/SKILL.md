@@ -32,4 +32,4 @@ const iosOpts = IOSOptions(accessibility: KeychainAccessibility.first_unlock_thi
 - [ ] Cache file has `isExcludedFromBackup = true`.
 - [ ] Keychain items use `*_this_device` accessibility and are not synchronizable.
 
-**Status:** Pending
+**Status:** Applied

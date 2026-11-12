@@ -36,4 +36,4 @@ const secure = FlutterSecureStorage(iOptions: IOSOptions(accessibility: Keychain
 - [ ] No tokens in NSUserDefaults.
 - [ ] Data Protection entitlement set; no `NSAllowsArbitraryLoads`.
 
-**Status:** Pending
+**Status:** Applied

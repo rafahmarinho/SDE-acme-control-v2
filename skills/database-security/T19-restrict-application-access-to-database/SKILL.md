@@ -39,4 +39,4 @@ const userDb = createClient(URL, ANON_KEY, { global: { headers: { Authorization:
 - [ ] The app bundle contains only the anon key (grep of build output).
 - [ ] Functions are not executable by `anon` unless explicitly granted.
 
-**Status:** Pending
+**Status:** Applied

@@ -39,4 +39,4 @@ if (kIsWeb) { html.window.localStorage.clear(); html.window.sessionStorage.clear
 - [ ] After logout on web, DevTools shows empty localStorage/sessionStorage for the origin.
 - [ ] Authenticated API responses include `Cache-Control: no-store`.
 
-**Status:** Pending
+**Status:** Applied

@@ -39,4 +39,4 @@ revoke update (status, approved_by) on setpoint_proposals from authenticated; --
 - [ ] Each role's allowed/denied operations match the matrix in automated tests.
 - [ ] Clients cannot update `profiles.role` or `setpoint_proposals.status` directly.
 
-**Status:** Pending
+**Status:** Applied

@@ -37,4 +37,4 @@ create trigger no_change before update or delete on internal.audit_log for each 
 - [ ] Demo reset leaves the audit log intact and logs itself.
 - [ ] Non-supervisors cannot read audit entries.
 
-**Status:** Pending
+**Status:** Applied

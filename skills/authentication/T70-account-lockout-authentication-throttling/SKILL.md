@@ -43,4 +43,4 @@ throw const AuthFailure('Invalid email or password.');
 - [ ] Login error text is identical for unknown email and wrong password.
 - [ ] Failed attempts are written to the audit log.
 
-**Status:** Pending
+**Status:** Applied

@@ -35,4 +35,4 @@ String safeNext(String? next) =>
 - [ ] `?next=https://evil.example` after login lands on `/plants`.
 - [ ] No DOM sink receives URL-derived data (code review).
 
-**Status:** Pending
+**Status:** Applied

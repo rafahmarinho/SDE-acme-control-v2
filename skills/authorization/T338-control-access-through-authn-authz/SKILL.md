@@ -36,4 +36,4 @@ create policy pumps_read on public.pumps for select to authenticated
 - [ ] Every table has RLS enabled (Supabase security advisor clean).
 - [ ] Setpoint approval requires recent re-authentication.
 
-**Status:** Pending
+**Status:** Applied

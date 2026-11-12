@@ -29,4 +29,4 @@ Settings and data sync -> Supabase (authenticated, RLS-protected)
 **Success Criteria:**
 - [ ] Entitlements contain no CloudKit/iCloud service keys.
 
-**Status:** Pending
+**Status:** Applied

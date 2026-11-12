@@ -36,4 +36,4 @@ if (blocked) return json(409, { error: blocked.reason });
 - [ ] A crafted request to start a pump on an empty tank returns 409.
 - [ ] A crafted request from a maintenance user to change a setpoint returns 403.
 
-**Status:** Pending
+**Status:** Applied

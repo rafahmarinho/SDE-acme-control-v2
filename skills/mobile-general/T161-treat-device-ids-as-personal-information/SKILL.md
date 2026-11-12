@@ -33,4 +33,4 @@ Future<String> installId() async {
 - [ ] No IMEI/serial/ANDROID_ID collection in the code.
 - [ ] Any device identifier is an app-generated UUID.
 
-**Status:** Pending
+**Status:** Applied

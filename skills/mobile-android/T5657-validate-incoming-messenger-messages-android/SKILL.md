@@ -35,4 +35,4 @@ await supabase.auth.exchangeCodeForSession(code);                        // igno
 - [ ] Unknown hosts/paths in deep links are ignored.
 - [ ] Only the `code` parameter is consumed from auth callbacks.
 
-**Status:** Pending
+**Status:** Applied

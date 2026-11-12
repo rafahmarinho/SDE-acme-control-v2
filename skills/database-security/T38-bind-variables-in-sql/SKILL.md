@@ -39,4 +39,4 @@ await supabase.rpc('search_equipment', params: {'p_plant': plantId, 'p_q': query
 - [ ] No string concatenation of user input into SQL or PostgREST filter strings (code review grep).
 - [ ] Search with `' or 1=1 --` returns no extra rows (test).
 
-**Status:** Pending
+**Status:** Applied

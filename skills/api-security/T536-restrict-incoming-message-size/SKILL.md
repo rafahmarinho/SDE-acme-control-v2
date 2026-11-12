@@ -38,4 +38,4 @@ export async function readJson(req: Request) {
 - [ ] A 1 MB body to any route returns 413.
 - [ ] All schema strings/arrays are bounded.
 
-**Status:** Pending
+**Status:** Applied

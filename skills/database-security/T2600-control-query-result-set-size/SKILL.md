@@ -38,4 +38,4 @@ const rows = await db.from('events').select('id,ts,type,message')
 - [ ] No list endpoint/query returns more than its documented maximum.
 - [ ] Requests over the maximum `limit` or time range are rejected with 400.
 
-**Status:** Pending
+**Status:** Applied

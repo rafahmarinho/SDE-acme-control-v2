@@ -41,4 +41,4 @@ if (!route.methods.includes(req.method)) return json(405, { error: 'method_not_a
 - [ ] `maxDuration` ≤ 10 s for API functions.
 - [ ] Unsupported methods return 405 and are logged.
 
-**Status:** Pending
+**Status:** Applied
