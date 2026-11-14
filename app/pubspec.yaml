@@ -14,7 +14,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   go_router: ^14.6.0
   supabase_flutter: ^2.8.0
-  flutter_secure_storage: ^9.2.2
+  flutter_secure_storage: ^11.2.0
   connectivity_plus: ^6.1.0
   cryptography: ^2.7.0
   http: ^1.2.2
