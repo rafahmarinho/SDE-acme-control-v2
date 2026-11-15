@@ -16,3 +16,8 @@ app/.packages
 # supabase
 supabase/.temp/
 supabase/.branches/
+# flutter generated platform files
+app/android/local.properties
+app/android/app/src/main/java/io/flutter/plugins/
+app/ios/Flutter/
+app/ios/Runner/GeneratedPluginRegistrant.*

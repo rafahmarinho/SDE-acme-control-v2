@@ -17,6 +17,7 @@ export const PERMISSIONS = {
   'setpoint.review': ['supervisor'],
   'attachment.upload': ['operator', 'engineer', 'supervisor', 'maintenance'],
   'attachment.read': ['operator', 'engineer', 'supervisor', 'maintenance'],
+  'alarm.acknowledge': ['operator', 'supervisor'],
   'simulation.manage': ['supervisor'],
 } as const satisfies Record<string, readonly Role[]>;
 

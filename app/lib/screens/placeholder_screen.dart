@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Temporary screen for PRD pages not implemented yet (plants, process view, equipment, alarms,
-/// trends, commands, setpoints, maintenance, simulation).
+/// Fallback screen for invalid routes (e.g. a malformed plant id).
 class PlaceholderScreen extends StatelessWidget {
   const PlaceholderScreen({super.key, required this.title});
   final String title;

@@ -46,6 +46,10 @@ export const SimulationRequestSchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('reset'), plantId: id }).strict(),
 ]);
 
+export const AlarmRequestSchema = z
+  .object({ action: z.literal('acknowledge'), plantId: id, alarmId: id })
+  .strict();
+
 export const ALLOWED_MIME = ['image/jpeg', 'image/png', 'application/pdf'] as const;
 export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 

@@ -3,10 +3,31 @@
 Industrial supervisory/control system for two (demo) water-treatment plants: two tanks, pumps,
 valves, level, pressure and flow, with a dark Material 3 UI. Source spec: [docs/specs/PRD.md](docs/specs/PRD.md).
 
-> **Status:** security foundation implemented (database schema + RLS, hardened command/setpoint/
-> simulation/attachment API, auth/session/offline-cache services, login, password recovery,
-> profile, settings, shift handover, platform hardening). Plant, process diagram, equipment,
-> alarms, trends, commands, setpoints, maintenance and simulation screens are still placeholders.
+> **Status:** all PRD pages implemented end to end: plants, process view (animated 2.5D
+> water-treatment diagram), equipment, alarms, trends, commands, setpoints (propose / review),
+> maintenance (work orders + lockout), shift handover, simulation (scenarios, step, events,
+> reset), plus login, password recovery, profile and settings.
+
+## Screens and roles
+
+| Page | Route | Who can act (enforced by API / RLS) |
+|------|-------|--------------------------------------|
+| Plants | `/plants` | all members (read) |
+| Process view | `/plants/:id` | tap equipment for details; controls as below |
+| Equipment (assets) | `/plants/:id/equipment` | search (RPC, bound params) + kind/status filters |
+| Alarms | `/plants/:id/alarms` | acknowledge: operator, supervisor |
+| Trends | `/plants/:id/trends` | read; ranges up to 7 days (server-enforced) |
+| Commands | `/plants/:id/commands` | pumps/valves/mode: operator, supervisor |
+| Setpoints | `/plants/:id/setpoints` | propose: engineer · review: supervisor (never own) |
+| Maintenance | `/plants/:id/maintenance` | work orders + lockout: maintenance |
+| Shift handover | `/plants/:id/handover` | all members |
+| Simulation | `/simulation` | supervisor; only when `ENABLE_DEMO_TOOLS=true` |
+
+Phones get bottom tabs **Plant / Alarms / Assets / More** and a vertical diagram; web/tablets
+get a side rail. Navigation adapts to the user's role (UX only). Realtime updates pause in the
+background and resume on return / reconnection; offline, the last encrypted snapshot is shown
+read-only and control actions are disabled. Commands resolve the *actual* state through the
+interlocks (empty source tank or maintenance keeps a pump off), so requested vs. actual is visible.
 
 ## Architecture
 
@@ -24,12 +45,19 @@ See [docs/security/access-matrix.md](docs/security/access-matrix.md),
 
 ## Run locally
 
-1. **Supabase**: `supabase start` (applies `migrations/` and `seed.sql`; set `SITE_URL`,
+1. **Supabase**: `supabase start` (applies `migrations/0001_init.sql`, `0002_screens.sql` and `seed.sql`; set `SITE_URL`,
    `WEB_RESET_REDIRECT_URL`, `MOBILE_RESET_REDIRECT_URL`, `SMTP_*` env vars first).
 2. **Demo users**: `cd api && pnpm install && pnpm seed:users` - prints random passwords once.
-3. **API**: copy `api/.env.example` to `api/.env`, then `pnpm dev`. Tests: `pnpm typecheck && pnpm test`.
+3. **API**: copy `api/.env.example` to `api/.env` (set `ENABLE_DEMO_TOOLS=true` locally for the
+   simulation area), then `pnpm dev`. Tests: `pnpm typecheck && pnpm test`.
 4. **App**: `cd app && flutter create . --platforms=web,android,ios` (keeps the hardened files),
-   `flutter pub get`, then `flutter run --dart-define-from-file=.env.dev.json`.
+   `flutter pub get`, then `flutter run --dart-define-from-file=.env.dev.json` (add
+   `"ENABLE_DEMO_TOOLS": true` for debug builds to show the simulation area).
+   Checks: `flutter analyze && flutter test`.
+5. **Demo flow**: sign in as the supervisor, open *Simulation*, apply *Normal operation*, open
+   the inlet valve and start a pump (as operator or supervisor), then advance the simulation and
+   watch levels, alarms and trends update. Sign in as engineer to propose a setpoint change and
+   as supervisor to approve it; as maintenance to lock out a pump (it then refuses to start).
 
 ## Publish
 

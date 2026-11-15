@@ -162,7 +162,7 @@ and satisfy every Success Criteria item. Recipes reference spec text in `docs/sp
 | ID | Title | Skill File | Priority | Category | Status |
 |----|-------|-----------|----------|----------|--------|
 | T49 | Disable and remove debug capabilities and code/data, and prepare application for release | [skills/release-supply-chain/T49-disable-debug-capabilities-for-release/SKILL.md](./skills/release-supply-chain/T49-disable-debug-capabilities-for-release/SKILL.md) | 7 | CODE_FIX | Applied |
-| T186 | Use recommended settings and the latest patches for third party libraries and software | [skills/release-supply-chain/T186-third-party-library-patches-and-secure-settings/SKILL.md](./skills/release-supply-chain/T186-third-party-library-patches-and-secure-settings/SKILL.md) | 10 | CODE_FIX | Applied |
+| T186 | Use recommended settings and the latest patches for third party libraries and software | [skills/release-supply-chain/T186-third-party-library-patches-and-secure-settings/SKILL.md](./skills/release-supply-chain/T186-third-party-library-patches-and-secure-settings/SKILL.md) | 10 | CODE_FIX | Partial (major Flutter package upgrades pending) |
 
 ### infrastructure
 | ID | Title | Skill File | Priority | Category | Status |
@@ -195,9 +195,9 @@ and satisfy every Success Criteria item. Recipes reference spec text in `docs/sp
 | client-data-protection | 4 | 4 | 0 | 0 |
 | privacy | 4 | 4 | 0 | 0 |
 | logging-audit | 2 | 2 | 0 | 0 |
-| release-supply-chain | 2 | 2 | 0 | 0 |
+| release-supply-chain | 2 | 1 | 0 | 1 |
 | infrastructure | 6 | 2 | 4 | 0 |
-| **TOTAL** | **70** | **66** | **4** | **0** |
+| **TOTAL** | **70** | **65** | **4** | **1** |
 
 **Remaining MUST reach 0 before completion.**
 

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app/permissions.dart';
 import '../app/providers.dart';
+import '../components/plant_scaffold.dart';
+import '../components/state_views.dart';
 
 final handoversProvider = FutureProvider.autoDispose.family<List<Map<String, dynamic>>, String>((ref, plantId) async {
   ref.watch(sessionProvider);
@@ -48,27 +51,34 @@ class _ShiftHandoverScreenState extends ConsumerState<ShiftHandoverScreen> {
   @override
   Widget build(BuildContext context) {
     final notes = ref.watch(handoversProvider(widget.plantId));
-    return Scaffold(
-      appBar: AppBar(title: const Text('Shift handover')),
+    return PlantScaffold(
+      plantId: widget.plantId,
+      section: PlantSection.handover,
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: TextField(controller: _notes, maxLength: maxLength, maxLines: 4, decoration: const InputDecoration(labelText: 'Handover notes')),
+            child: TextField(
+              controller: _notes,
+              maxLength: maxLength,
+              maxLines: 4,
+              decoration: const InputDecoration(labelText: 'Handover notes', border: OutlineInputBorder()),
+            ),
           ),
-          FilledButton(onPressed: _save, child: const Text('Save note')),
+          FilledButton.icon(onPressed: _save, icon: const Icon(Icons.save_outlined), label: const Text('Save note')),
+          const SizedBox(height: 8),
           Expanded(
             child: notes.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (_, __) => const Center(child: Text('Could not load notes.')),
+              loading: () => const LoadingView(label: 'Loading notes…'),
+              error: (_, __) => ErrorView(message: 'Could not load notes.', onRetry: () => ref.invalidate(handoversProvider(widget.plantId))),
               data: (rows) => rows.isEmpty
-                  ? const Center(child: Text('No handover notes yet.'))
+                  ? const EmptyView(message: 'No handover notes yet.', icon: Icons.assignment_outlined)
                   : ListView(
                       children: [
                         for (final r in rows)
                           ListTile(
                             title: SelectableText(r['notes'] as String),
-                            subtitle: Text(DateTime.parse(r['created_at'] as String).toLocal().toString()),
+                            subtitle: Text(formatTime(DateTime.parse(r['created_at'] as String).toLocal())),
                           ),
                       ],
                     ),

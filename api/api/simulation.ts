@@ -50,11 +50,39 @@ async function saveState(plantId: string, s: PlantState): Promise<void> {
       { plant_id: plantId, tag: `${t.tag}.pressure`, value: pressureBar(t), unit: 'bar' },
     ]).concat(s.pumps.map((p) => ({ plant_id: plantId, tag: `${p.tag}.flow`, value: Math.round(p.flowM3h * 10) / 10, unit: 'm3/h' }))),
   );
+  await syncAlarms(plantId, s);
+}
+
+/**
+ * Raises one alarm per abnormal condition (no duplicates while it stays active) and clears it
+ * when the condition returns to normal. Conditions: tank level limits, and a pump that was
+ * requested ON but is not running (empty source tank or maintenance interlock).
+ */
+async function syncAlarms(plantId: string, s: PlantState): Promise<void> {
+  const db = adminClient();
+  const tankById = new Map(s.tanks.map((t) => [t.id, t]));
+  const wanted = new Map<string, { severity: 'medium' | 'high' | 'critical'; message: string }>();
   for (const t of s.tanks) {
-    if (t.levelPct <= t.lowLimitPct || t.levelPct >= t.highLimitPct) {
-      const low = t.levelPct <= t.lowLimitPct;
-      await db.from('alarms').insert({ plant_id: plantId, tag: t.tag, severity: 'high', message: `${t.tag} level ${low ? 'low' : 'high'} (${t.levelPct.toFixed(1)}%)` });
+    if (t.levelPct <= t.lowLimitPct) wanted.set(t.tag, { severity: t.levelPct <= 0.5 ? 'critical' : 'high', message: `${t.tag} level low (${t.levelPct.toFixed(1)}%)` });
+    else if (t.levelPct >= t.highLimitPct) wanted.set(t.tag, { severity: 'high', message: `${t.tag} level high (${t.levelPct.toFixed(1)}%)` });
+  }
+  for (const p of s.pumps) {
+    if (p.requestedState === 'on' && p.actualState !== 'on') {
+      const reason = p.inMaintenance ? 'equipment in maintenance' : (tankById.get(p.sourceTankId)?.levelPct ?? 0) <= (tankById.get(p.sourceTankId)?.lowLimitPct ?? 0) ? 'source tank empty' : 'interlock';
+      wanted.set(p.tag, { severity: 'medium', message: `${p.tag} requested ON but not running (${reason})` });
     }
+  }
+  const tags = [...s.tanks.map((t) => t.tag), ...s.pumps.map((p) => p.tag)];
+  const { data: active } = await db.from('alarms').select('id, tag').eq('plant_id', plantId).eq('active', true).in('tag', tags).limit(200);
+  const activeTags = new Set((active ?? []).map((a) => a.tag as string));
+  const toClear = (active ?? []).filter((a) => !wanted.has(a.tag as string)).map((a) => a.id as string);
+  if (toClear.length) {
+    await db.from('alarms').update({ active: false, cleared_at: new Date().toISOString() }).eq('plant_id', plantId).in('id', toClear);
+  }
+  const toRaise = [...wanted.entries()].filter(([tag]) => !activeTags.has(tag));
+  if (toRaise.length) {
+    await db.from('alarms').insert(toRaise.map(([tag, a]) => ({ plant_id: plantId, tag, severity: a.severity, message: a.message })));
+    for (const [tag, a] of toRaise) await event(plantId, 'alarm.raised', `${tag}: ${a.message}`, null);
   }
 }
 

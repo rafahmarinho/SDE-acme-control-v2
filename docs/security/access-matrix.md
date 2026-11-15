@@ -14,6 +14,7 @@ Non-members of a plant get **404** for every object of that plant.
 | setpoint.propose | | ✓ | | | value within tag min/max |
 | setpoint.review | | | ✓ | | recent login; never own proposal |
 | attachment.upload / read | ✓ | ✓ | ✓ | ✓ | server-chosen paths, 60 s signed URLs |
+| alarm.acknowledge | ✓ | | ✓ | | once per alarm (conditional update) |
 | simulation.manage | | | ✓ | | ENABLE_DEMO_TOOLS only; reset needs recent login |
 
 ## Direct database access (authenticated key, RLS)
@@ -21,10 +22,11 @@ Non-members of a plant get **404** for every object of that plant.
 | Table | Read | Write |
 |-------|------|-------|
 | plants, tanks, pumps, valves, setpoints, setpoint_proposals, process_values, alarms, events, attachments | plant members | API only (service role) |
-| maintenance_orders | plant members | insert: maintenance role, `created_by = auth.uid()` |
+| maintenance_orders | plant members | insert: maintenance role, `created_by = auth.uid()`; update `status` only: maintenance role (trigger blocks other columns, writes event + audit) |
 | shift_handovers | plant members | insert: plant members, `author = auth.uid()` |
 | profiles | self + users sharing a plant | update own `display_name`, `phone` only |
 | plant_members | own rows | administrator only |
 | consents | own | insert own (append-only history) |
 | internal.audit_log | supervisors via `audit_entries()` | append-only via `audit_write()` (service role) |
+| `trend_values()` / `trend_tags()` | plant members (security invoker, RLS) | - ; rejects ranges > 7 days, > 2000 points |
 | anon key | nothing | nothing |

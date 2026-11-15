@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { isPermitted, PERMISSIONS, ROLES } from '../src/auth/permissions.js';
 import { REAUTH_MAX_AGE_SECONDS, requireRecentAuth } from '../src/auth/verify.js';
 import { checkPumpCommand, checkValveCommand } from '../src/commands/interlocks.js';
-import { AttachmentRequestSchema, CommandSchema, sanitizeFileName, SetpointRequestSchema, SimulationRequestSchema } from '../src/commands/schemas.js';
+import { AlarmRequestSchema, AttachmentRequestSchema, CommandSchema, sanitizeFileName, SetpointRequestSchema, SimulationRequestSchema } from '../src/commands/schemas.js';
 import { redact } from '../src/lib/audit.js';
 import { corsHeaders, isAllowedOrigin } from '../src/lib/cors.js';
 import { requireHttpsUrl } from '../src/lib/env.js';
@@ -58,6 +58,9 @@ describe('authorization matrix', () => {
     expect(isPermitted('maintenance', 'pump.toggle')).toBe(false);
     expect(isPermitted('operator', 'equipment.lockout')).toBe(false);
   });
+  it('only operators and supervisors acknowledge alarms', () => {
+    expect(ROLES.filter((r) => isPermitted(r, 'alarm.acknowledge'))).toEqual(['operator', 'supervisor']);
+  });
   it('every action has at least one role', () => {
     for (const roles of Object.values(PERMISSIONS)) expect(roles.length).toBeGreaterThan(0);
   });
@@ -79,6 +82,11 @@ describe('input validation', () => {
     expect(SimulationRequestSchema.safeParse({ action: 'scenario', plantId: PLANT, scenario: '../../etc/passwd' }).success).toBe(false);
     expect(SimulationRequestSchema.safeParse({ action: 'step', plantId: PLANT, steps: 601 }).success).toBe(false);
     expect(SimulationRequestSchema.safeParse({ action: 'step', plantId: PLANT, steps: 10 }).success).toBe(true);
+  });
+  it('alarm acknowledgement accepts only ids, never client-supplied state', () => {
+    expect(AlarmRequestSchema.safeParse({ action: 'acknowledge', plantId: PLANT, alarmId: EQ }).success).toBe(true);
+    expect(AlarmRequestSchema.safeParse({ action: 'acknowledge', plantId: PLANT, alarmId: EQ, acknowledgedBy: EQ }).success).toBe(false);
+    expect(AlarmRequestSchema.safeParse({ action: 'clear', plantId: PLANT, alarmId: EQ }).success).toBe(false);
   });
   it('bounds setpoint reason length', () => {
     expect(SetpointRequestSchema.safeParse({ action: 'propose', plantId: PLANT, setpointId: EQ, value: 1, reason: 'x'.repeat(501) }).success).toBe(false);

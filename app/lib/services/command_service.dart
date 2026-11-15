@@ -43,6 +43,8 @@ const _messages = {
   'already_reviewed': 'This proposal has already been reviewed.',
   'rate_limited': 'Too many requests. Please wait and try again.',
   'invalid_request': 'The request was not valid.',
+  'already_acknowledged': 'This alarm has already been acknowledged.',
+  'reset_failed': 'The demo data could not be reset.',
 };
 
 /// Sends control actions to the Vercel API. Every call: requires connectivity (never queued),
@@ -77,9 +79,16 @@ class CommandService {
           .timeout(const Duration(seconds: 10));
     } on TimeoutException {
       throw const CommandRejectedException('The server did not respond. The command state is unknown; check the actual state.', 'timeout');
+    } on http.ClientException {
+      throw const CommandRejectedException('The server could not be reached. Check your connection and try again.', 'network');
     }
 
-    final decoded = res.body.isEmpty ? <String, dynamic>{} : jsonDecode(res.body) as Map<String, dynamic>;
+    Map<String, dynamic> decoded;
+    try {
+      decoded = res.body.isEmpty ? <String, dynamic>{} : jsonDecode(res.body) as Map<String, dynamic>;
+    } on FormatException {
+      decoded = const {};
+    }
     if (res.statusCode >= 200 && res.statusCode < 300) return decoded;
     final code = decoded['error'] as String? ?? 'error';
     if (res.statusCode == 401 && code == 'reauthentication_required') throw const ReauthenticationRequiredException();
@@ -104,6 +113,18 @@ class CommandService {
 
   Future<Map<String, dynamic>> proposeSetpoint(String plantId, String setpointId, double value, String reason) =>
       _post('/api/setpoints', {'action': 'propose', 'plantId': plantId, 'setpointId': setpointId, 'value': value, 'reason': reason});
+
+  Future<Map<String, dynamic>> acknowledgeAlarm(String plantId, String alarmId) =>
+      _post('/api/alarms', {'action': 'acknowledge', 'plantId': plantId, 'alarmId': alarmId});
+
+  /// Demo tooling (only reachable when ENABLE_DEMO_TOOLS is set on both app and API).
+  Future<Map<String, dynamic>> applyScenario(String plantId, String scenario) =>
+      _post('/api/simulation', {'action': 'scenario', 'plantId': plantId, 'scenario': scenario});
+
+  Future<Map<String, dynamic>> stepSimulation(String plantId, int steps) =>
+      _post('/api/simulation', {'action': 'step', 'plantId': plantId, 'steps': steps});
+
+  Future<Map<String, dynamic>> resetDemo(String plantId) => _post('/api/simulation', {'action': 'reset', 'plantId': plantId});
 
   Future<Map<String, dynamic>> reviewSetpoint(String plantId, String proposalId, bool approve, {String? comment}) =>
       _post('/api/setpoints', {'action': 'review', 'plantId': plantId, 'proposalId': proposalId, 'decision': approve ? 'approve' : 'reject', if (comment != null) 'comment': comment});

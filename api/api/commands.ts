@@ -6,7 +6,7 @@
  */
 import { authorize, type Action } from '../src/auth/permissions.js';
 import { requireRecentAuth, requireUser } from '../src/auth/verify.js';
-import { checkPumpCommand, checkValveCommand } from '../src/commands/interlocks.js';
+import { checkPumpCommand, checkValveCommand, pumpCanRun } from '../src/commands/interlocks.js';
 import { CommandSchema, type Command } from '../src/commands/schemas.js';
 import { audit, event, securityEvent } from '../src/lib/audit.js';
 import { HttpError, json, readJson, route, type RequestContext } from '../src/lib/http.js';
@@ -27,6 +27,24 @@ function actionFor(cmd: Command): Action {
   }
 }
 
+/**
+ * Field feedback: the equipment's actual state follows the request only when the interlocks
+ * allow it (a pump does not run with an empty source tank or while in maintenance; a valve
+ * under maintenance does not move). Levels then evolve with the process simulation.
+ */
+function resolveActual(
+  table: 'pumps' | 'valves',
+  eq: { requested_state: string; actual_state: string; in_maintenance: boolean; rated_flow_m3h: number },
+  sourceOk: boolean,
+): Record<string, unknown> {
+  if (table === 'pumps') {
+    const running = eq.requested_state === 'on' && !eq.in_maintenance && sourceOk;
+    return { actual_state: running ? 'on' : 'off', flow_m3h: running ? Number(eq.rated_flow_m3h) : 0 };
+  }
+  if (eq.in_maintenance) return {};
+  return { actual_state: eq.requested_state, flow_m3h: eq.requested_state === 'open' ? Number(eq.rated_flow_m3h) : 0 };
+}
+
 async function handle(req: Request, ctx: RequestContext): Promise<Response> {
   const user = await requireUser(req, ctx);
   await enforce(`ip:${ctx.ip ?? 'unknown'}`, LIMITS.perIp.limit, LIMITS.perIp.window);
@@ -37,20 +55,22 @@ async function handle(req: Request, ctx: RequestContext): Promise<Response> {
   await enforce(`cmd:${user.id}`, LIMITS.command.limit, LIMITS.command.window);
 
   const db = adminClient();
-  const table = cmd.type === 'pump' ? 'pumps' : cmd.type === 'valve' ? 'valves' : cmd.equipmentKind === 'pump' ? 'pumps' : 'valves';
+  const table: 'pumps' | 'valves' = cmd.type === 'pump' ? 'pumps' : cmd.type === 'valve' ? 'valves' : cmd.equipmentKind === 'pump' ? 'pumps' : 'valves';
   const { data: eq, error } = await db
     .from(table)
-    .select('id, tag, mode, in_maintenance, requested_state, actual_state, source_tank_id:' + (table === 'pumps' ? 'source_tank_id' : 'tank_id'))
+    .select('id, tag, mode, in_maintenance, requested_state, actual_state, rated_flow_m3h, source_tank_id:' + (table === 'pumps' ? 'source_tank_id' : 'tank_id'))
     .eq('id', cmd.equipmentId)
     .eq('plant_id', cmd.plantId)
-    .maybeSingle<{ id: string; tag: string; mode: 'manual' | 'auto'; in_maintenance: boolean; requested_state: string; actual_state: string; source_tank_id: string }>();
+    .maybeSingle<{ id: string; tag: string; mode: 'manual' | 'auto'; in_maintenance: boolean; requested_state: string; actual_state: string; rated_flow_m3h: number; source_tank_id: string }>();
   if (error) throw new Error('equipment_lookup_failed');
   if (!eq) throw new HttpError(404, 'not_found');
 
   let blocked: string | null = null;
   let update: Record<string, unknown> = {};
+  const { data: tank } =
+    table === 'pumps' ? await db.from('tanks').select('level_pct, low_limit_pct').eq('id', eq.source_tank_id).eq('plant_id', cmd.plantId).single() : { data: null };
+  const sourceOk = pumpCanRun({ inMaintenance: false, sourceLevelPct: Number(tank?.level_pct ?? 0), sourceLowLimitPct: Number(tank?.low_limit_pct ?? 100) });
   if (cmd.type === 'pump') {
-    const { data: tank } = await db.from('tanks').select('level_pct, low_limit_pct').eq('id', eq.source_tank_id).single();
     blocked = checkPumpCommand(
       { mode: eq.mode, inMaintenance: eq.in_maintenance, sourceLevelPct: Number(tank?.level_pct ?? 0), sourceLowLimitPct: Number(tank?.low_limit_pct ?? 100) },
       cmd.state,
@@ -65,9 +85,10 @@ async function handle(req: Request, ctx: RequestContext): Promise<Response> {
   } else {
     // Lockout forces the equipment to a safe state.
     update = cmd.inMaintenance
-      ? { in_maintenance: true, mode: 'manual', requested_state: table === 'pumps' ? 'off' : 'closed' }
+      ? { in_maintenance: true, mode: 'manual', requested_state: table === 'pumps' ? 'off' : 'closed', actual_state: table === 'pumps' ? 'off' : 'closed', flow_m3h: 0 }
       : { in_maintenance: false };
   }
+  if (!blocked && cmd.type !== 'lockout') Object.assign(update, resolveActual(table, { ...eq, ...update } as typeof eq, sourceOk));
 
   const requested = { ...cmd };
   if (blocked) {
